@@ -32,7 +32,7 @@ END_FUZZIFY
 FUZZIFY height
     TERM plain := (0, 1) (3,0);
     TERM plateau := (3, 0) (5, 1) (7, 1) (9, 0);
-    TERM everest := (8,0) (9, 1) (15, 1);	
+    TERM everest := (9, 1);	
 END_FUZZIFY
 
 FUZZIFY xr
