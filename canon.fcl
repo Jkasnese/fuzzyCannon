@@ -36,7 +36,7 @@ FUZZIFY height
 END_FUZZIFY
 
 FUZZIFY xr
-	TERM demaisDepois := (-10, 1) (-8, 1) (-6, 0);
+	TERM demaisDepois := (-100, 1) (-8, 1) (-6, 0);
 	TERM muitoDepois := (-6, 0) (-4, 1) (-2, 0);
 	TERM depois := (-4, 0) (-2, 1) (0, 0);
     // TERM ok :=
@@ -46,26 +46,32 @@ FUZZIFY xr
 END_FUZZIFY
 
 FUZZIFY yr
-    TERM sniper := (-2, 0) (-1, 1) (0, 0) (1,1) (2,0);
-    TERM powerRanger := (-8, 0) (-6, 1) (-4, 1) (-1, 0) (1, 0) (4, 1) (6, 1) (8, 0);
-    TERM stormTrooper := (-10, 1) (-7, 0) (7, 0) (10, 1); 			
+	TERM bbb := (7, 0) (10, 1);
+	TERM bb := (1, 0) (4, 1) (6, 1) (8, 0);
+	TERM b := (0, 0) (1,1) (2,0);
+    TERM a := (-2, 0) (-1, 1) (0, 0);
+    TERM aa := (-8, 0) (-6, 1) (-4, 1) (-1, 0);
+    TERM aaa := (-10, 1) (-7, 0); 			
 END_FUZZIFY
 
 // Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
-DEFUZZIFY angle			
-	TERM acute := (0, 1) (30 ,0);
-	TERM halfWay := (30 , 0) (45, 1) (60,0);
-	TERM selfShot := (60 , 0) (90, 1);
+DEFUZZIFY angle
+	TERM ddd := (-20, 0) (-15 , 1) (-10, 0);
+	TERM dd := (-15, 0) (-10 , 1) (-5, 0);
+	TERM d := (-10, 0) (-5 , 1) (0, 0);	
+	TERM s := (0, 0) (5 , 1) (10, 0);
+	TERM ss := (5, 0) (10, 1) (15 ,0);
+	TERM sss := (10 , 0) (15, 1) (20, 0);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
 
 DEFUZZIFY strenght	
-	TERM p := (0, 1) (2 ,0);
-    TERM pp := (2, 0) (3, 1) (4, 0);
-	TERM f := (4, 0) (5, 1) (6 ,0);
-	TERM ff := (6 , 0) (7, 1) (8, 1) (9, 0);
-    TERM fff := (9, 0) (10, 1);
+    TERM pp := (-5, 0) (-3, 1) (-1, 0);
+    TERM p := (-2, 0) (-1, 1) (0, 0);
+	TERM f := (0, 0) (1, 1) (2 ,0);
+	TERM ff := (1, 0) (3, 1) (5, 0);
+    TERM fff := (4, 0) (6, 1) (8, 1) (10, 0);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
@@ -76,15 +82,27 @@ RULEBLOCK No1
 	ACT : MIN;	// Use 'min' activation method
 	ACCU : MAX;	// Use 'max' accumulation method
 
+	RULE -10 : IF yr IS a THEN angle IS d;
+	RULE -9 : IF yr IS aa THEN angle IS dd;
+	RULE -8 : IF yr IS aaa THEN angle IS ddd;
+	RULE -7 : IF yr IS b THEN angle IS s;
+	RULE -6 : IF yr IS bb THEN angle IS ss;
+	RULE -5 : IF yr IS bbb THEN angle IS sss;
+	
+	RULE -3 : IF xr IS demaisDepois THEN strenght IS pp;
+	RULE -2 : IF xr IS muitoDepois THEN strenght IS pp;
+	RULE -1 : IF xr IS depois THEN strenght IS p;
 	RULE 0 : IF xr IS antes THEN strenght IS fff;
-	RULE 1 : IF distance IS near AND height IS plain THEN angle IS acute;
+	
+/*	RULE 1 : IF distance IS near AND height IS plain THEN angle IS acute;
     RULE 2 : IF distance IS near AND height IS plain THEN strenght IS p;
 	RULE 3 : IF distance IS close AND height IS plateau THEN angle IS halfWay;
 	RULE 4 : IF distance IS close AND height IS plateau THEN strenght IS f;
 	RULE 5 : IF distance IS close AND height IS plateau THEN angle IS selfShot;
 	RULE 6 : IF distance IS close AND height IS plateau THEN strenght IS ff;
 	RULE 7 : IF distance IS far AND height IS everest THEN angle IS selfShot;
-	RULE 8 : IF distance IS far AND height IS everest THEN strenght IS fff;
+	RULE 8 : IF distance IS far AND height IS everest THEN strenght IS fff;*/
+	
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK

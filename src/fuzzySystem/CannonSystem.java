@@ -13,8 +13,8 @@ public class CannonSystem {
 		this.yc = yc;
 	}
 
-	public void discreteShot(final double cannonAngle, final double shotSpeed, Double dx, Double dy){
-		double radAngle = Math.toDegrees(cannonAngle);
+	public void discreteShot(final double cannonAngle, final double shotSpeed, Distance distanceFromTarget){
+		double radAngle = Math.toRadians(cannonAngle);
 		double vx = shotSpeed * Math.cos(radAngle);
 		double vy = shotSpeed * Math.sin(radAngle);
 
@@ -26,28 +26,21 @@ public class CannonSystem {
 		double a = gravity/2;
 		
 		double delta = Math.sqrt(vy*vy + 4*(a)*yc);
-		double timeYp = ((vy*-1) + delta) / 2*a;
+		double timeYp = (vy + delta) / (2*a);
 		
 		// Find where xp is at that time. 
 		double xp = vx*timeYp;
 		// Save dx == xa - xp.
-		dx = new Double(xa - xp);
+		distanceFromTarget.setDx(xa - xp);
 		
-		// If xp < xa, dy = -1 and return.
-		if (xa > xp) {
-			dy = new Double(-1);
-			return;
-		} else { // Else, calculate dy:
-			double timeXp = ya/vx;
-			double yp = yc + vy*timeXp - (gravity*(timeXp*timeXp))/2;
-			
-			dy = new Double(ya - yp);
-			
-			return;
-		}
+		double timeXp = ya/vx;
+		double yp = yc + vy*timeXp - (gravity*(timeXp*timeXp))/2;
+		
+		distanceFromTarget.setDy(ya - yp);
+		return;
 	}
 	
-	public void simulateShot(final int cannonAngle, final int shotSpeed, Double dx, Double dy){
+	public void simulateShot(final int cannonAngle, final int shotSpeed, Distance distanceFromTarget){
 		double radAngle = Math.toDegrees(cannonAngle);
 		double vx = shotSpeed * Math.cos(radAngle);
 		double vy = shotSpeed * Math.sin(radAngle);
@@ -61,11 +54,11 @@ public class CannonSystem {
 			xp = vx*time;
 			yp += vy*time - gravity/2*(time*time);
 			if (xp == xa){
-				dy = new Double(ya-yp);
+				distanceFromTarget.setDy(ya-yp);
 			} 
 			time = time+timeStep;
 		} while (yp != 0);
-		dx = new Double(xa - xp);
+		distanceFromTarget.setDx(xa - xp);
 	}
 	
 	

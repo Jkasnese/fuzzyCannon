@@ -10,6 +10,9 @@ import net.sourceforge.jFuzzyLogic.rule.Variable;
 import java.io.IOException;
 
 public class Running {
+	
+	private final static boolean showGraphics = true;
+	private final static double allowedError = 0.2;
 
 	public static void main(String[] args) {
 		// Load FCL
@@ -22,52 +25,89 @@ public class Running {
             return;
         }
         
-		// Show ruleset
         FunctionBlock functionBlock = fis.getFunctionBlock(null);
-        JFuzzyChart.get().chart(functionBlock);
+        
+        if (showGraphics) {
+    		// Show ruleset
+            JFuzzyChart.get().chart(functionBlock);
+            
+    		// Print ruleSet
+    		System.out.println(functionBlock);
+        }
+        
 
+		// Feed and control system:
+		// Initial setup:
+		int distance = 9; // 7
+		int height = 4; // 2
+		int cannonHeight = 6; // 0
+		CannonSystem cannon = new CannonSystem(distance, height, cannonHeight);
+		
+		Distance distanceFromTarget = new Distance(0, 0);
+		double cannonAngle = 60; // 45
+		double shotSpeed = 3; // 3
+
+		functionBlock.setVariable("distance", distance);
+		functionBlock.setVariable("height", height);
+		
 		// Set inputs
         /*distance : REAL;
     	height : REAL;
         xr : REAL;
         yr : REAL;
         */
-		functionBlock.setVariable("distance", 3);
-		functionBlock.setVariable("height", 7);
-		functionBlock.setVariable("xr", -2);
-		functionBlock.setVariable("yr", -2);
 
-		// Evaluate 
-		functionBlock.evaluate();
 
-		// Show output variable's chart
-		Variable angle = functionBlock.getVariable("angle");
-		Variable strenght = functionBlock.getVariable("strenght");
-		JFuzzyChart.get().chart(angle, angle.getDefuzzifier(), true);
-		JFuzzyChart.get().chart(strenght, strenght.getDefuzzifier(), true);
-
-		//Gpr.debug("poor[service]: " + functionBlock.getVariable("service").getMembership("poor"));
-
-		// Print ruleSet
-		System.out.println(functionBlock);
-		System.out.println("Angle:" + functionBlock.getVariable("angle").getValue());
-		System.out.println("Strenght:" + functionBlock.getVariable("strenght").getValue());
-        
-		/*
-		CannonSystem cannon = new CannonSystem(23, 52, 0);
-		Double dx = null;
-		Double dy = null;
-
-		double cannonAngle = 45;
-		double shotSpeed = 30;
-
+		int  i= 0;
+		
 		do {
-			cannon.discreteShot(cannonAngle, shotSpeed, dx, dy);
+			// Activate system
+			cannon.discreteShot(cannonAngle, shotSpeed, distanceFromTarget);
 			
-			//feed fuzz 
+			// Shot stats:
+			System.out.println("Shot: " + i);
+			System.out.println("Shot angle: " + cannonAngle);
+			System.out.println("Shot speed: " + shotSpeed);
+			System.out.println("Shot X distance: " + distanceFromTarget.getDx());
+			System.out.println("Shot Y distance: " + distanceFromTarget.getDy());
+			System.out.println(" - - -  - ");
+			
+			i++;
+			
+			//feed fuzz to control system
+			functionBlock.setVariable("xr", distanceFromTarget.getDx());
+			functionBlock.setVariable("yr", distanceFromTarget.getDy());
 
-		} while (dy.doubleValue() != 0);
-		*/
+			// Evaluate 
+			functionBlock.evaluate();
+
+			// Show output variable's chart
+			if (showGraphics && i == 1) {
+				Variable angle = functionBlock.getVariable("angle");
+				Variable strenght = functionBlock.getVariable("strenght");
+				JFuzzyChart.get().chart(angle, angle.getDefuzzifier(), true);
+				JFuzzyChart.get().chart(strenght, strenght.getDefuzzifier(), true);
+			}
+			//Gpr.debug("poor[service]: " + functionBlock.getVariable("service").getMembership("poor"));
+			
+			System.out.println(functionBlock.getVariable("angle").getValue());
+			cannonAngle = cannonAngle + functionBlock.getVariable("angle").getValue();
+			shotSpeed = shotSpeed + functionBlock.getVariable("strenght").getValue();
+			System.out.println(functionBlock.getVariable("strenght").getValue());
+
+		} while (Math.abs(distanceFromTarget.getDy()) > allowedError && i < 10);
+		
+		if (Math.abs(distanceFromTarget.getDy()) < allowedError) {
+			System.out.println("You hit the target!");
+		} else{
+			System.out.println("Out of tries");
+		}
+		
+		
+		
+		
+
+
 	}
 	
 }
