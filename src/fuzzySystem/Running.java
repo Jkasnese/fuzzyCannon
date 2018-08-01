@@ -95,9 +95,9 @@ public class Running {
 			shotSpeed = shotSpeed + functionBlock.getVariable("strenght").getValue();
 			System.out.println(functionBlock.getVariable("strenght").getValue());
 
-		} while (Math.abs(distanceFromTarget.getDy()) > allowedError && i < 10);
+		} while ((Math.abs(distanceFromTarget.getDy()) > allowedError || distanceFromTarget.getDx() >= 0) && i < 10);
 		
-		if (Math.abs(distanceFromTarget.getDy()) < allowedError) {
+		if (Math.abs(distanceFromTarget.getDy()) < allowedError && distanceFromTarget.getDx() <= 0) {
 			System.out.println("You hit the target!");
 		} else{
 			System.out.println("Out of tries");

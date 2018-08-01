@@ -32,9 +32,19 @@ public class CannonSystem {
 		double xp = vx*timeYp;
 		// Save dx == xa - xp.
 		distanceFromTarget.setDx(xa - xp);
-		
-		double timeXp = ya/vx;
-		double yp = yc + vy*timeXp - (gravity*(timeXp*timeXp))/2;
+
+		double yp = 0;
+
+		// If bullet didn't go further than target, find maximum height for the bullet
+		if (xa > xp) {
+			// Find DELTAS where V = 0. Torricelli: v² = vo² + 2aDELTAS -> DELTAS = -v0²/2a
+			double deltaS = ((vy*vy)*-1) / 2*gravity;
+			yp = yc + deltaS;
+
+		} else {
+			double timeXp = ya/vx;
+			yp = yc + vy*timeXp - (gravity*(timeXp*timeXp))/2;	
+		}
 		
 		distanceFromTarget.setDy(ya - yp);
 		return;
