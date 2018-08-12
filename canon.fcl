@@ -9,8 +9,8 @@ FUNCTION_BLOCK cannonBall	// Block definition (there may be more than one block 
 
 // Define input variables
 VAR_INPUT				
-	distance : REAL;
-	height : REAL;
+//	distance : REAL;
+//	height : REAL;
     xr : REAL;
     yr : REAL;
 END_VAR
@@ -22,7 +22,7 @@ VAR_OUTPUT
 END_VAR
 
 // Fuzzify input variable
-FUZZIFY distance
+/*FUZZIFY distance
     TERM near := (0, 1) (3, 0);
     TERM close := (2, 0) (5, 1) (8, 0);
 	TERM far := (7, 0) (9, 1) ; 
@@ -33,10 +33,10 @@ FUZZIFY height
     TERM plain := (0, 1) (3,0);
     TERM plateau := (3, 0) (5, 1) (7, 1) (9, 0);
     TERM everest := (8,0) (9, 1) (15, 1);	
-END_FUZZIFY
+END_FUZZIFY*/
 
 FUZZIFY xr
-	TERM demaisDepois := (-100, 1) (-8, 1) (-6, 0);
+	TERM demaisDepois := (-30, 1) (-8, 1) (-6, 0);
 	TERM muitoDepois := (-6, 0) (-4, 1) (-2, 0);
 	TERM depois := (-4, 0) (-2, 1) (0, 0);
     // TERM ok :=

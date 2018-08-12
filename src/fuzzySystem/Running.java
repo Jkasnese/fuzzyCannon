@@ -47,8 +47,8 @@ public class Running {
 		double cannonAngle = 60; // 45
 		double shotSpeed = 3; // 3
 
-		functionBlock.setVariable("distance", distance);
-		functionBlock.setVariable("height", height);
+		//functionBlock.setVariable("distance", distance);
+		//functionBlock.setVariable("height", height);
 		
 		// Set inputs
         /*distance : REAL;
