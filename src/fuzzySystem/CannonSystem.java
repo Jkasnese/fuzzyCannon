@@ -14,6 +14,7 @@ public class CannonSystem {
 	}
 
 	public void discreteShot(final double cannonAngle, final double shotSpeed, Distance distanceFromTarget){
+		
 		double radAngle = Math.toRadians(cannonAngle);
 		double vx = shotSpeed * Math.cos(radAngle);
 		double vy = shotSpeed * Math.sin(radAngle);
@@ -35,15 +36,18 @@ public class CannonSystem {
 
 		double yp = 0;
 
-		// If bullet didn't go further than target, find maximum height for the bullet
-		if (xa > xp) {
-			// Find DELTAS where V = 0. Torricelli: v² = vo² + 2aDELTAS -> DELTAS = -v0²/2a
-			double deltaS = ((vy*vy)*-1) / 2*gravity;
-			yp = yc + deltaS;
-
-		} else {
+		// If bullet went further than target, find difference in distance.
+		if (xa < xp) {
 			double timeXp = ya/vx;
 			yp = yc + vy*timeXp - (gravity*(timeXp*timeXp))/2;	
+
+		} else {
+			// If bullet didnt went further, use maximum height as measure for yp.
+			// Find DELTAS where V = 0. Torricelli: v² = vo² + 2aDELTAS -> DELTAS = -v0²/2a
+						//double deltaS = (vy*vy) / 2*gravity;
+						//yp = yc + deltaS;
+			
+			// Use yp = 0.
 		}
 		
 		distanceFromTarget.setDy(ya - yp);
