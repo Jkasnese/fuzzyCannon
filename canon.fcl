@@ -48,18 +48,18 @@ END_FUZZIFY
 
 // Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
 DEFUZZIFY angle
-	TERM ddd := (-15, 0) (-9, 1) (-3, 0);
-	TERM dd := (-5, 0) (-3, 1) (-1, 0);
-	TERM d := (-2, 0) (-1, 1) (0, 0);	
-	TERM s := (0, 0) (1 , 1) (2, 0);
-	TERM ss := (1, 0) (3, 1) (5, 0);
-	TERM sss := (3, 0) (9, 1) (15, 0);
+	TERM ddd := (-29, 0) (-19, 1) (-9, 0);
+	TERM dd := (-17, 0) (-9, 1) (-0.8, 0);
+	TERM d := (-1.6, 0) (-0.8, 1) (0, 0);	
+	TERM s := (0, 0) (0.8 , 1) (1.6, 0);
+	TERM ss := (0.8, 0) (9, 1) (17, 0);
+	TERM sss := (9, 0) (19, 1) (29, 0);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
 
 DEFUZZIFY strenght	
-	TERM ppp := (-10, 1) (-8, 1) (-6, 1) (-4, 0);
+	TERM ppp := (-16, 1) (-12, 1) (-6, 1) (-4, 0);
     TERM pp := (-5, 0) (-3, 1) (-1, 0);
     TERM p := (-2, 0) (-1, 1) (0, 0);
 	TERM f := (0, 0) (1, 1) (2 ,0);
@@ -80,36 +80,59 @@ RULEBLOCK No1
 	RULE 00  : IF xr IS antes THEN strenght IS ff;
 	RULE 01  : IF xr IS muitoAntes THEN strenght IS ff;
 	RULE 02  : IF xr IS demaisAntes THEN strenght IS fff;
-	
 		// Depois
-	RULE 03 : IF xr IS demaisDepois THEN strenght IS ppp;
-	RULE 04 : IF xr IS muitoDepois THEN strenght IS pp;
+//	RULE 03 : IF xr IS demaisDepois THEN strenght IS ppp;
+//	RULE 04 : IF xr IS muitoDepois THEN strenght IS pp;
+
+	// Regras pra se aproximar do alvo mais rapidamente, isto é, mudar ângulo p/ 45.
+	RULE 31  : IF xr IS muitoAntes AND inputAngle IS muitoAlto THEN angle IS ddd;
+	RULE 32  : IF xr IS muitoAntes AND inputAngle IS alto THEN angle IS d;
+	RULE 33  : IF xr IS muitoAntes AND inputAngle IS baixo THEN angle IS s; 
+	RULE 34  : IF xr IS muitoAntes AND inputAngle IS muitoBaixo THEN angle IS ss;
 	
+	RULE 37  : IF xr IS demaisAntes AND inputAngle IS muitoAlto THEN angle IS ddd;
+	RULE 38  : IF xr IS demaisAntes AND inputAngle IS muitoBaixo THEN angle IS sss;
+	RULE 39  : IF xr IS demaisAntes AND inputAngle IS alto THEN angle IS dd;
+	RULE 310 : IF xr IS demaisAntes AND inputAngle IS baixo THEN angle IS ss;
 	
-	// Regras p/ ajute do ângulo após ultrapassar Xa
+	// Regras p/ ajute da força após ultrapassar Xa
 		// Projétil Baixo
 	RULE 10 : IF xr IS depois AND yr IS b THEN strenght IS f;
 	RULE 11 : IF xr IS depois AND yr IS bb THEN strenght IS ff;
 	RULE 12 : IF xr IS depois AND yr IS bbb THEN strenght IS fff;
-	
 		// Projétil Alto
 	RULE 13 : IF xr IS depois AND yr IS a THEN strenght IS p;
 	RULE 14 : IF xr IS depois AND yr IS aa THEN strenght IS pp;
 	RULE 15 : IF xr IS depois AND yr IS aaa THEN strenght IS ppp;	
 	
+	// Regras p/ ajutes do ângulo após ultrapassar Xa
+	RULE 20 : IF yr IS a   THEN angle IS d;
+	RULE 21 : IF yr IS aa  THEN angle IS dd;
+	RULE 22 : IF yr IS aaa THEN angle IS ddd;
+	RULE 23 : IF yr IS b   THEN angle IS s;
+	RULE 24 : IF yr IS bb  THEN angle IS ss;
+	RULE 25 : IF yr IS bbb THEN angle IS sss;
+	/*
+		// Depois
+	RULE 20 : IF yr IS a   AND xr IS depois THEN angle IS d;
+	RULE 21 : IF yr IS aa  AND xr IS depois THEN angle IS dd;
+	RULE 22 : IF yr IS aaa AND xr IS depois THEN angle IS ddd;
+	RULE 23 : IF yr IS b   AND xr IS depois THEN angle IS s;
+	RULE 24 : IF yr IS bb  AND xr IS depois THEN angle IS ss;
+	RULE 25 : IF yr IS bbb AND xr IS depois THEN angle IS sss;
+		// muitoDepois	
+	RULE 20 : IF yr IS a   AND xr IS depois THEN angle IS d;
+	RULE 21 : IF yr IS aa  AND xr IS depois THEN angle IS dd;
+	RULE 22 : IF yr IS aaa AND xr IS depois THEN angle IS ddd;
+	RULE 23 : IF yr IS b   AND xr IS depois THEN angle IS s;
+	RULE 24 : IF yr IS bb  AND xr IS depois THEN angle IS ss;
+	RULE 25 : IF yr IS bbb AND xr IS depois THEN angle IS sss;
+	* 
+	*/
 	
-//	RULE -01 : IF xr IS depois THEN strenght IS p;
 	
-
-/*
-
-	RULE 00 : IF yr IS a   AND xr IS depois THEN angle IS d;
-	RULE 01 : IF yr IS aa  AND xr IS depois THEN angle IS dd;
-	RULE 02 : IF yr IS aaa AND xr IS depois THEN angle IS ddd;
-	RULE 03 : IF yr IS b   AND xr IS depois THEN angle IS s;
-	RULE 04 : IF yr IS bb  AND xr IS depois THEN angle IS ss;
-	RULE 05 : IF yr IS bbb AND xr IS depois THEN angle IS sss;
 	
+	/*
 	RULE 10 : IF yr IS a   AND xr IS muitoDepois THEN angle IS d;
 	RULE 11 : IF yr IS aa  AND xr IS muitoDepois THEN angle IS d;
 	RULE 12 : IF yr IS aaa AND xr IS muitoDepois THEN angle IS d;
@@ -118,18 +141,8 @@ RULEBLOCK No1
 	RULE 15 : IF yr IS bbb AND xr IS muitoDepois THEN angle IS s;
 	* 
 	*/
+
 	
-/*
-	RULE 1  : IF xr IS muitoAntes AND inputAngle IS muitoAlto THEN angle IS dd;
-	RULE 2  : IF xr IS muitoAntes AND inputAngle IS alto THEN angle IS d;
-	RULE 3  : IF xr IS muitoAntes AND inputAngle IS baixo THEN angle IS s; 
-	RULE 4  : IF xr IS muitoAntes AND inputAngle IS muitoBaixo THEN angle IS ss;
-	
-	RULE 7  : IF xr IS demaisAntes AND inputAngle IS muitoAlto THEN angle IS ddd;
-	RULE 8  : IF xr IS demaisAntes AND inputAngle IS muitoBaixo THEN angle IS sss;
-	RULE 9  : IF xr IS demaisAntes AND inputAngle IS alto THEN angle IS dd;
-	RULE 10 : IF xr IS demaisAntes AND inputAngle IS baixo THEN angle IS ss;
-*/	
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK

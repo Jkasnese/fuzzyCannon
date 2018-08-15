@@ -48,6 +48,9 @@ public class CannonSystem {
 						//yp = yc + deltaS;
 			
 			// Use yp = 0.
+			
+			// Use yr = 0 -> yp = ya
+			yp = ya;
 		}
 		
 		distanceFromTarget.setDy(ya - yp);
