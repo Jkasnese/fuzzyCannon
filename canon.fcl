@@ -64,7 +64,7 @@ DEFUZZIFY strenght
     TERM p := (-2, 0) (-1, 1) (0, 0);
 	TERM f := (0, 0) (1, 1) (2 ,0);
 	TERM ff := (1, 0) (3, 1) (5, 0);
-    TERM fff := (4, 0) (6, 1) (8, 1) (10, 1);
+    TERM fff := (4, 0) (6, 1) (12, 1) (16, 1);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
@@ -75,19 +75,33 @@ RULEBLOCK No1
 	ACT : MIN;	// Use 'min' activation method
 	ACCU : MAX;	// Use 'max' accumulation method
 	
-	RULE -3 : IF xr IS demaisDepois THEN strenght IS ppp;
-	RULE -2 : IF xr IS muitoDepois THEN strenght IS pp;
-	RULE -01 : IF xr IS depois THEN strenght IS p;
+	// Regras básicas de aproximação do alvo
+		// Antes
+	RULE 00  : IF xr IS antes THEN strenght IS ff;
+	RULE 01  : IF xr IS muitoAntes THEN strenght IS ff;
+	RULE 02  : IF xr IS demaisAntes THEN strenght IS fff;
 	
-//	RULE -1  : IF xr IS depois AND yr IS b THEN strenght IS f;
-//	RULE -11 : IF xr IS depois AND yr IS bb THEN strenght IS ff;
-//	RULE -12 : IF xr IS depois AND yr IS a THEN strenght IS f;
-//	RULE -13 : IF xr IS depois AND yr IS bb THEN strenght IS ff;
-//	RULE -4  : IF xr IS depois AND yr IS a THEN strenght IS f;
+		// Depois
+	RULE 03 : IF xr IS demaisDepois THEN strenght IS ppp;
+	RULE 04 : IF xr IS muitoDepois THEN strenght IS pp;
+	
+	
+	// Regras p/ ajute do ângulo após ultrapassar Xa
+		// Projétil Baixo
+	RULE 10 : IF xr IS depois AND yr IS b THEN strenght IS f;
+	RULE 11 : IF xr IS depois AND yr IS bb THEN strenght IS ff;
+	RULE 12 : IF xr IS depois AND yr IS bbb THEN strenght IS fff;
+	
+		// Projétil Alto
+	RULE 13 : IF xr IS depois AND yr IS a THEN strenght IS p;
+	RULE 14 : IF xr IS depois AND yr IS aa THEN strenght IS pp;
+	RULE 15 : IF xr IS depois AND yr IS aaa THEN strenght IS ppp;	
+	
+	
+//	RULE -01 : IF xr IS depois THEN strenght IS p;
+	
 
-	RULE 0  : IF xr IS antes THEN strenght IS f;
-	RULE 5  : IF xr IS muitoAntes THEN strenght IS ff;
-	RULE 6  : IF xr IS demaisAntes THEN strenght IS fff;
+/*
 
 	RULE 00 : IF yr IS a   AND xr IS depois THEN angle IS d;
 	RULE 01 : IF yr IS aa  AND xr IS depois THEN angle IS dd;
@@ -102,6 +116,8 @@ RULEBLOCK No1
 	RULE 13 : IF yr IS b   AND xr IS muitoDepois THEN angle IS s;
 	RULE 14 : IF yr IS bb  AND xr IS muitoDepois THEN angle IS s;
 	RULE 15 : IF yr IS bbb AND xr IS muitoDepois THEN angle IS s;
+	* 
+	*/
 	
 /*
 	RULE 1  : IF xr IS muitoAntes AND inputAngle IS muitoAlto THEN angle IS dd;

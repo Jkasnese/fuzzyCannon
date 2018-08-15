@@ -38,7 +38,7 @@ public class CannonSystem {
 
 		// If bullet went further than target, find difference in distance.
 		if (xa < xp) {
-			double timeXp = ya/vx;
+			double timeXp = xa/vx;
 			yp = yc + vy*timeXp - (gravity*(timeXp*timeXp))/2;	
 
 		} else {
