@@ -9,10 +9,9 @@ FUNCTION_BLOCK cannonBall	// Block definition (there may be more than one block 
 
 // Define input variables
 VAR_INPUT				
-//	distance : REAL;
-//	height : REAL;
     xr : REAL;
     yr : REAL;
+    inputAngle : REAL;
 END_VAR
 
 // Define output variable
@@ -21,64 +20,68 @@ VAR_OUTPUT
     strenght : REAL;
 END_VAR
 
+
 FUZZIFY xr
-	TERM demaisDepois := (-40, 1) (-8, 1) (-5, 0);
-	TERM muitoMuitoDepois := (-6, 0) (-5, 1) (-4, 0);
-	TERM muitoDepois := (-5, 0) (-4, 1) (-3, 0);
-	TERM poucoDepois := (-4, 0) (-3, 1) (-2, 0);
-	TERM bemPoucoDepois := (-3, 0) (-2, 1) (-1, 0);
-	TERM depois := (-2, 0) (-1, 1) (0, 0);
-    // TERM ok :=
-    TERM antes := (0, 0) (2, 1) (40, 1);
-  //  TERM pp := (2, 0) (4, 1) (6, 0);
-//    TERM ppp:= (5, 0) (7, 1) (10, 1);
+	TERM demaisDepois := (-100, 1) (-50, 1) (-25, 0);
+	TERM muitoDepoisMais := (-32.5, 0) (-25, 1) (-17.5, 0);
+	TERM muitoDepois := (-25, 0) (-17.5, 1) (-10, 0);
+	TERM depoisMais := (-15, 0) (-10, 1) (-5, 0);
+	TERM depois := (-10, 0) (-5, 1) (0, 0);
+    TERM antes := (0, 0) (5, 1) (10, 0);
+    TERM antesMais := (5, 0) (10, 1) (15, 0);
+    TERM muitoAntes := (10, 0) (17.5, 1) (25, 0);
+    TERM muitoAntesMais := (17.5, 0) (25, 1) (32.5, 0);
+    TERM demaisAntes := (25, 0) (50, 1) (100, 1);
 END_FUZZIFY
 
 FUZZIFY yr
-	TERM bbbb := (6, 0) (10, 1) (40, 1);
-	TERM bx6 := (5, 0) (6, 1) (7, 0);
-	TERM bx5 := (4, 0) (5, 1) (6, 0);
-	TERM bx4 := (3 , 0) (4 , 1) (5 , 0);
-	TERM bbb := (2, 0) (3, 1) (4, 0);
-	TERM bb := (1, 0) (2, 1) (3, 0);
-	TERM b := (0, 0) (1,1) (2,0);
-    TERM a := (-2, 0) (-1, 1) (0, 0);
-    TERM aa := (-3, 0) (-2, 1) (-1, 0);
-    TERM aaa := (-4, 0) (-3, 1) (-2, 0);
-    TERM ax4 := (-5, 0) (-4, 1) (-3, 0);
-    TERM ax5 := (-6, 0) (-5, 1) (-4, 0);
-    TERM ax6 := (-7, 0) (-6, 1) (-5, 0);
-    TERM aaaaa := (-40, 1) (-10, 1) (-6, 0); 			
+	TERM bx5 := (25, 0) (50, 1) (100, 1);
+	TERM bx4 := (12.5, 0) (20, 1) (27.5, 0);
+	TERM bbb := (5, 0) (12.5, 1) (20, 0);
+	TERM bb := (2.5, 0) (5, 1) (7.5, 0);
+	TERM b := (0, 0) (2.5, 1) (5, 0);
+    TERM a := (-5, 0) (-2.5, 1) (0, 0);
+    TERM aa := (-7.5, 0) (-5, 1) (-2.5, 0);
+    TERM aaa := (-20, 0) (-12.5, 1) (-5, 0);
+    TERM ax4 := (-27.5, 0) (-20, 1) (-12.5, 0);
+    TERM ax5 :=  (-100, 1) (-50, 1) (-25, 0); 			
+END_FUZZIFY
+
+FUZZIFY inputAngle
+	TERM muitoAlto := (60, 0) (75, 1) (89, 1);
+	TERM alto := (45, 0) (60, 1) (75, 0);
+	TERM baixo := (15, 0) (30, 1) (45, 0);
+	TERM muitoBaixo := (1, 1) (15, 1) (30, 0);
 END_FUZZIFY
 
 // Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
 DEFUZZIFY angle
-	TERM dx6 := (-20, 0) (-15 , 1) (-12.5, 0);
-	TERM dx5 := (-15, 0) (-12.5 , 1) (-10, 0);
-	TERM dx4 := (-12.5, 0) (-10, 1) (-7.5, 0);
-	TERM ddd := (-10, 0) (-7.5, 1) (-5, 0);
-	TERM dd := (-7.5, 0) (-5, 1) (-2.5, 0);
-	TERM d := (-5, 0) (-2.5 , 1) (0, 0);	
-	TERM s := (0, 0) (2.5 , 1) (5, 0);
-	TERM ss := (2.5, 0) (5, 1) (7.5, 0);
-	TERM sss := (5, 0) (7.5, 1) (10, 0);
-	TERM sx4 := (7.5, 0) (10, 1) (12.5, 0);
-	TERM sx5 := (10, 0) (12.5, 1) (15, 0);
-	TERM sx6 := (12.5, 0) (15, 1) (20 ,0);
+	TERM dx5 := (-15, 0) (-9, 1) (-3, 0);
+	TERM dx4 := (-4, 0) (-3, 1) (-2, 0);
+	TERM ddd := (-3, 0) (-2, 1) (-1, 0);
+	TERM dd := (-1.5, 0) (-1, 1) (-0.5, 0);
+	TERM d := (-1, 0) (-0.5, 1) (0, 0);	
+	TERM s := (0, 0) (0.5 , 1) (1, 0);
+	TERM ss := (0.5, 0) (1, 1) (1.5, 0);
+	TERM sss := (1, 0) (2, 1) (3, 0);
+	TERM sx4 := (2, 0) (3, 1) (4, 0);
+	TERM sx5 := (3, 0) (9, 1) (15, 0);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
 
 DEFUZZIFY strenght	
-    TERM pp := (-5, 0) (-3, 1) (-1, 0);
-    TERM pp := ()
-    TERM p := (-1.0, 0) (-0.5, 1) (0, 0);
+	TERM px5 := (-10, 1) (-8, 1) (-6, 1) (-4, 0);
+    TERM px4 := (-4, 0) (-3, 1) (-2, 0);
+    TERM ppp := (-3, 0) (-2, 1) (-1, 0);
+    TERM pp:=	(-1.5, 0) (-1, 1) (-0.5, 0);
+	TERM p := (-1, 0) (-0.5, 1) (0, 0);	
+	
 	TERM f := (0, 0) (0.5, 1) (1 ,0);
-	TERM ff := (0.5, 0) (1, 1) (1.5, 0);
-	TERM fff := (1, 0) (1.5, 1) (2, 0);
-	TERM fx4 := (1.5, 0) (2, 1) (2.5, 0);
-	TERM fx5 := (2.5, 0) (3, 1) (5, 0);
-    TERM fx6 := (4, 0) (6, 1) (8, 1) (10, 0);
+	TERM ff:= (0.5, 0) (1, 1) (1.5, 0);
+	TERM fff:= (1, 0) (2, 1) (3, 0);
+	TERM fx4:= (2, 0) (3, 1) (4, 0); 
+    TERM fx5 := (4, 0) (6, 1) (8, 1) (10, 1);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
@@ -88,21 +91,39 @@ RULEBLOCK No1
 	AND : MIN;	// Use 'min' for 'and'
 	ACT : MIN;	// Use 'min' activation method
 	ACCU : MAX;	// Use 'max' accumulation method
+	
+	RULE -3 : IF xr IS demaisDepois THEN strenght IS ppp;
+	RULE -2 : IF xr IS muitoDepois THEN strenght IS pp;
+	RULE -1 : IF xr IS depois THEN strenght IS p;
+	RULE 0  : IF xr IS antes THEN strenght IS f;
+	RULE 5  : IF xr IS muitoAntes THEN strenght IS ff;
+	RULE 6  : IF xr IS demaisAntes THEN strenght IS fff;
 
-	RULE -10 : IF yr IS a    THEN angle IS d;
-	RULE -9  : IF yr IS aa   THEN angle IS dd;
-	RULE -8  : IF yr IS aaa  THEN angle IS ddd;
-	RULE -7  : IF yr IS b    THEN angle IS s;
-	RULE -6  : IF yr IS bb   THEN angle IS ss;
-	RULE -5  : IF yr IS bbb  THEN angle IS sss;
+	RULE 00 : IF yr IS a   AND xr IS depois THEN angle IS d;
+	RULE 01 : IF yr IS aa  AND xr IS depois THEN angle IS dd;
+	RULE 02 : IF yr IS aaa AND xr IS depois THEN angle IS ddd;
+	RULE 03 : IF yr IS b   AND xr IS depois THEN angle IS s;
+	RULE 04 : IF yr IS bb  AND xr IS depois THEN angle IS ss;
+	RULE 05 : IF yr IS bbb AND xr IS depois THEN angle IS sss;
 	
-	RULE -3  : IF xr IS demaisDepois 	THEN strenght IS pp;
-	RULE -2  : IF xr IS muitoDepois  	THEN strenght IS pp;
-	RULE -1  : IF xr IS depois       	THEN strenght IS p;
-	RULE 0   : IF xr IS antes       	THEN strenght IS fff;
+	RULE 10 : IF yr IS a   AND xr IS muitoDepois THEN angle IS d;
+	RULE 11 : IF yr IS aa  AND xr IS muitoDepois THEN angle IS d;
+	RULE 12 : IF yr IS aaa AND xr IS muitoDepois THEN angle IS d;
+	RULE 13 : IF yr IS b   AND xr IS muitoDepois THEN angle IS s;
+	RULE 14 : IF yr IS bb  AND xr IS muitoDepois THEN angle IS s;
+	RULE 15 : IF yr IS bbb AND xr IS muitoDepois THEN angle IS s;
 	
+/*
+	RULE 1  : IF xr IS muitoAntes AND inputAngle IS muitoAlto THEN angle IS dd;
+	RULE 2  : IF xr IS muitoAntes AND inputAngle IS alto THEN angle IS d;
+	RULE 3  : IF xr IS muitoAntes AND inputAngle IS baixo THEN angle IS s; 
+	RULE 4  : IF xr IS muitoAntes AND inputAngle IS muitoBaixo THEN angle IS ss;
 	
+	RULE 7  : IF xr IS demaisAntes AND inputAngle IS muitoAlto THEN angle IS ddd;
+	RULE 8  : IF xr IS demaisAntes AND inputAngle IS muitoBaixo THEN angle IS sss;
+	RULE 9  : IF xr IS demaisAntes AND inputAngle IS alto THEN angle IS dd;
+	RULE 10 : IF xr IS demaisAntes AND inputAngle IS baixo THEN angle IS ss;
+*/	
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK
-

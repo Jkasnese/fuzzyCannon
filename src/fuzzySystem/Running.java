@@ -11,13 +11,13 @@ import java.io.IOException;
 
 public class Running {
 	
-	private final static boolean showGraphics = false;
+	private final static boolean showGraphics = true;
 	private final static double allowedError = 0.15;
 	private final static int maxShots = 50;
 
 	public static void main(String[] args) {
 		// Load FCL
-		String fclFile = new String("canon.fcl");
+		String fclFile = new String("exp4.fcl");
 		FIS fis = FIS.load(fclFile);
 		
 		// Error while loading?
@@ -91,18 +91,23 @@ public class Running {
 			//Gpr.debug("poor[service]: " + functionBlock.getVariable("service").getMembership("poor"));
 			
 			// Shot stats:
+			cannonAngle = cannonAngle + functionBlock.getVariable("angle").getValue();
+			shotSpeed = shotSpeed + functionBlock.getVariable("strenght").getValue();
+
 			System.out.println("");
-			System.out.println("Shot: " + i);
+			System.out.println(i + " & " + cannonAngle + " & " + shotSpeed + " & " + distanceFromTarget.getDx() + " & " + distanceFromTarget.getDy() + " & " + functionBlock.getVariable("angle").getValue() + " & " +  functionBlock.getVariable("strenght").getValue() + "\\"+"\\");
+			
+			/** System.out.println("Shot: " + i);
 			System.out.println("Shot angle: " + cannonAngle);
 			System.out.println("Shot speed: " + shotSpeed);
 			System.out.println("Shot X distance: " + distanceFromTarget.getDx() + " - Fuzzy: demaisAntes: " + functionBlock.getVariable("xr").getMembership("demaisAntes") + " muitoAntes: " + functionBlock.getVariable("xr").getMembership("muitoAntes") + " antes: " + functionBlock.getVariable("xr").getMembership("antes"));
 			System.out.println("Shot Y distance: " + distanceFromTarget.getDy());
 			
 			System.out.println("Angle adjust: " + functionBlock.getVariable("angle").getValue());
-			cannonAngle = cannonAngle + functionBlock.getVariable("angle").getValue();
-			shotSpeed = shotSpeed + functionBlock.getVariable("strenght").getValue();
+			
 			System.out.println("Speed adjust: " + functionBlock.getVariable("strenght").getValue());
-			System.out.println(" - - -  - ");
+			**/
+			System.out.println("\\hline");
 			
 			i++; // Count shot
 

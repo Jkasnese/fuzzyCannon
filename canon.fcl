@@ -77,7 +77,14 @@ RULEBLOCK No1
 	
 	RULE -3 : IF xr IS demaisDepois THEN strenght IS ppp;
 	RULE -2 : IF xr IS muitoDepois THEN strenght IS pp;
-	RULE -1 : IF xr IS depois THEN strenght IS p;
+	RULE -01 : IF xr IS depois THEN strenght IS p;
+	
+//	RULE -1  : IF xr IS depois AND yr IS b THEN strenght IS f;
+//	RULE -11 : IF xr IS depois AND yr IS bb THEN strenght IS ff;
+//	RULE -12 : IF xr IS depois AND yr IS a THEN strenght IS f;
+//	RULE -13 : IF xr IS depois AND yr IS bb THEN strenght IS ff;
+//	RULE -4  : IF xr IS depois AND yr IS a THEN strenght IS f;
+
 	RULE 0  : IF xr IS antes THEN strenght IS f;
 	RULE 5  : IF xr IS muitoAntes THEN strenght IS ff;
 	RULE 6  : IF xr IS demaisAntes THEN strenght IS fff;
@@ -96,7 +103,7 @@ RULEBLOCK No1
 	RULE 14 : IF yr IS bb  AND xr IS muitoDepois THEN angle IS s;
 	RULE 15 : IF yr IS bbb AND xr IS muitoDepois THEN angle IS s;
 	
-	/*
+/*
 	RULE 1  : IF xr IS muitoAntes AND inputAngle IS muitoAlto THEN angle IS dd;
 	RULE 2  : IF xr IS muitoAntes AND inputAngle IS alto THEN angle IS d;
 	RULE 3  : IF xr IS muitoAntes AND inputAngle IS baixo THEN angle IS s; 
@@ -106,8 +113,7 @@ RULEBLOCK No1
 	RULE 8  : IF xr IS demaisAntes AND inputAngle IS muitoBaixo THEN angle IS sss;
 	RULE 9  : IF xr IS demaisAntes AND inputAngle IS alto THEN angle IS dd;
 	RULE 10 : IF xr IS demaisAntes AND inputAngle IS baixo THEN angle IS ss;
-*/
-	
+*/	
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK
