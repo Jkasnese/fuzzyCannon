@@ -8,6 +8,7 @@ import net.sourceforge.jFuzzyLogic.rule.Rule;
 import net.sourceforge.jFuzzyLogic.rule.Variable;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 public class Running {
 	
@@ -44,6 +45,7 @@ public class Running {
 		int height = 40; // 2
 		int cannonHeight = 0; // 0
 		CannonSystem cannon = new CannonSystem(distance, height, cannonHeight);
+		DecimalFormat fourDec = new DecimalFormat("#.0000");
 		
 		Distance distanceFromTarget = new Distance(0, 0);
 		double cannonAngle = 60; // 45
@@ -96,7 +98,7 @@ public class Running {
 			// Shot stats:
 			if (latex) {
 				System.out.println("");
-				System.out.println(i + " & " + cannonAngle + " & " + shotSpeed + " & " + distanceFromTarget.getDx() + " & " + distanceFromTarget.getDy() + " & " + functionBlock.getVariable("angle").getValue() + " & " +  functionBlock.getVariable("strenght").getValue() + "\\"+"\\");
+				System.out.println(i + " & " + fourDec.format(cannonAngle) + " & " + fourDec.format(shotSpeed) + " & " + fourDec.format(distanceFromTarget.getDx()) + " & " + fourDec.format(distanceFromTarget.getDy())  + " & " + functionBlock.getVariable("angle").getValue() + " & " +  functionBlock.getVariable("strenght").getValue() + "\\"+"\\");
 				System.out.println("\\hline");
 			} else {
 				System.out.println("Shot: " + i);
